@@ -26,7 +26,7 @@ namespace NPOIExtension.Web.Controllers
         /// Excel导出demo
         /// </summary>
         /// <returns></returns>
-        public ActionResult SettlementExport()
+        public ActionResult ExcelExport()
         {
             //1、获取数据
             var list = settlementList;
@@ -52,6 +52,36 @@ namespace NPOIExtension.Web.Controllers
             //5、导出excel 
             return ExportExcel(DateTime.Now.ToString("yyyyMMddHHmmss"), workbook);
 
+        }
+
+        /// <summary>
+        /// Excel导入案例
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult ExcelImport()
+        {
+            try
+            {
+                IWorkbook workbook = NPOIService.GetWorkbook(HttpContext.Request);
+                ISheet sheet = workbook.GetSheetAt(0);
+
+                List<ExcelColumn> columns = new List<ExcelColumn>();
+                columns.Add(new ExcelColumn<SettlementModel> { FieldExpr = u => u.Id });
+                columns.Add(new ExcelColumn<SettlementModel> { FieldExpr = u => u.BussinessType });
+                columns.Add(new ExcelColumn<SettlementModel> { FieldExpr = u => u.CreateDateBegin, AllowNull = true });
+                columns.Add(new ExcelColumn<SettlementModel> { FieldExpr = u => u.CreateDateEnd });
+                columns.Add(new ExcelColumn<SettlementModel> { FieldExpr = u => u.SerialId });
+                columns.Add(new ExcelColumn<SettlementModel> { FieldExpr = u => u.Title });
+
+                var list = NPOIService.ExcelToList<SettlementModel>(workbook, sheet, columns);
+                //业务逻辑处理
+
+            }
+            catch (Exception ex)
+            {
+                //异常处理
+            }
+            return Json(new { Success = true }, JsonRequestBehavior.AllowGet);
         }
         public ActionResult Index()
         {
