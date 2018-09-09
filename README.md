@@ -1,7 +1,6 @@
-# NPOIExtension
-基于NPOI封装高级应用
+# NPOI--基于NPOI封装高级应用
 
-只需要引用NPOI官网相关dll，然后把NPOIService 和CommonUtility 引用到项目中即可。
+只需要引用NPOI官网相关dll，然后把NPOIService 和CommonUtility 引用到项目中即可,可以快速构建项目导出，无需关注NPOI底层实现。
 
 # 文件说明
 NPOIService：基于NPOI分装的EXCEL主要核心代码
